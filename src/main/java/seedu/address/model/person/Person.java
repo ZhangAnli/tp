@@ -27,7 +27,7 @@ public class Person {
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Remark remark, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, address, remark, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -69,8 +69,7 @@ public class Person {
             return true;
         }
         return otherPerson != null
-                && otherPerson.getName().equals(getName())
-                && (otherPerson.getPhone().equals(getPhone()) || otherPerson.getEmail().equals(getEmail()));
+                && otherPerson.getName().equals(getName());
     }
     /**
      * Returns true if both persons have the same identity and data fields.

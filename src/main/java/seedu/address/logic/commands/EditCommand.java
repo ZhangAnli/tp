@@ -115,6 +115,8 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private Remark remark;
+
         public EditPersonDescriptor() {}
         /**
          * Copy constructor.
@@ -126,6 +128,7 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setRemark(toCopy.remark);
         }
         /**
          * Returns true if at least one field is edited.
@@ -157,6 +160,13 @@ public class EditCommand extends Command {
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
         }
+        public void setRemark(Remark remark) {
+            this.remark = remark;
+        }
+        public Optional<Remark> getRemark() {
+            return Optional.ofNullable(remark);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -164,6 +174,7 @@ public class EditCommand extends Command {
         public void setTags(Set<Tag> tags) {
             this.tags = (tags != null) ? new HashSet<>(tags) : null;
         }
+
         /**
          * Returns an unmodifiable tag set, which throws {@code UnsupportedOperationException}
          * if modification is attempted.
