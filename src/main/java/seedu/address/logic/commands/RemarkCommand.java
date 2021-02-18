@@ -36,10 +36,10 @@ public class RemarkCommand extends Command {
      * @param remark of the person to be updated to
      */
     public RemarkCommand(Index index, Remark remark) {
-            requireAllNonNull(index, remark);
+        requireAllNonNull(index, remark);
 
-            this.index = index;
-            this.remark = remark;
+        this.index = index;
+        this.remark = remark;
     }
 
     @Override
