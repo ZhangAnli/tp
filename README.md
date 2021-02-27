@@ -14,3 +14,11 @@
 * It is named `AddressBook Level 3` (`AB3` for short) because it was initially created as a part of a series of `AddressBook` projects (`Level 1`, `Level 2`, `Level 3` ...).
 * For the detailed documentation of this project, see the **[Address Book Product Website](https://se-education.org/addressbook-level3)**.
 * This project is a **part of the se-education.org** initiative. If you would like to contribute code to this project, see [se-education.org](https://se-education.org#https://se-education.org/#contributing) for more info.
+
+### Delete Command 
+
+Deletes the specified dog profile from Pawbook. 
+
+Format: `delete <ID>` The ID must be a positive integer 1,2,3... 
+
+Example: `delete 2`: deletes the dog with ID 2 in Pawbook. 
