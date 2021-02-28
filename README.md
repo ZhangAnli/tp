@@ -21,4 +21,10 @@ Deletes the specified dog profile from Pawbook.
 
 Format: `delete <ID>` The ID must be a positive integer 1,2,3... 
 
-Example: `delete 2`: deletes the dog with ID 2 in Pawbook. 
+Example: `delete 2`: deletes the dog with ID 2 in Pawbook.
+
+### Help Command
+
+Provides the list of commands supported by Pawbook and explains how to use them
+
+Format: `help`
