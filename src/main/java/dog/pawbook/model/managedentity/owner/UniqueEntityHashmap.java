@@ -29,6 +29,10 @@ import javafx.collections.ObservableList;
 
 public class UniqueEntityHashmap<T extends Entity> implements Iterable<T> {
 
+    private final ObservableList<T> internalList = FXCollections.observableArrayList();
+    private final ObservableList<T> internalUnmodifiableList =
+            FXCollections.unmodifiableObservableList(internalList);
+
     private HashMap<Integer, T> internalHashmap;
     private Integer nextId;
 
@@ -41,8 +45,6 @@ public class UniqueEntityHashmap<T extends Entity> implements Iterable<T> {
         this.internalHashmap = internalHashmap;
         nextId = 1;
     }
-
-
 
     /**
      * Returns true if the list contains an equivalent entity as the given argument.
@@ -62,6 +64,7 @@ public class UniqueEntityHashmap<T extends Entity> implements Iterable<T> {
             throw new DuplicateOwnerException();
         }
         internalHashmap.put(nextId, toAdd);
+        internalList.add(toAdd);
         nextId++;
     }
 
@@ -82,6 +85,7 @@ public class UniqueEntityHashmap<T extends Entity> implements Iterable<T> {
         }
 
         internalHashmap.replace(nextId, editedEntity);
+        internalList.set(index, editedEntity);
     }
 
     /**
@@ -94,6 +98,7 @@ public class UniqueEntityHashmap<T extends Entity> implements Iterable<T> {
             throw new OwnerNotFoundException();
         }
         internalHashmap.remove(toRemove);
+        internalList.remove(toRemove);
     }
 
     /**
@@ -104,6 +109,8 @@ public class UniqueEntityHashmap<T extends Entity> implements Iterable<T> {
     public void setEntities(UniqueEntityHashmap replacement) {
         requireNonNull(replacement);
         internalHashmap = replacement.getHashmap();
+        List<T> temp = internalHashmap.values().stream().collect(toCollection(ArrayList::new));
+        internalList.setAll(FXCollections.observableArrayList(temp));
     }
 
     /**
@@ -116,6 +123,7 @@ public class UniqueEntityHashmap<T extends Entity> implements Iterable<T> {
             throw new DuplicateOwnerException();
         }
         internalHashmap = newEntities;
+        internalList.setAll(newEntities.values());
     }
 
     /**
@@ -127,32 +135,23 @@ public class UniqueEntityHashmap<T extends Entity> implements Iterable<T> {
         return this.internalHashmap;
     }
 
-
-
     /**
-     * Returns the hashmap values in the form of an observable list.
-     *
-     * @return Observable list of all the hashmap values.
-     *
+     * Returns the backing list as an {@code ObservableList}.
      */
     public ObservableList<T> asObservableList() {
-        List<T> temp = internalHashmap.values().stream().collect(toCollection(ArrayList::new));
-        return FXCollections.observableArrayList(temp);
+        return internalList;
     }
 
     /**
-     * Returns the hashmap values in the form of an unmodified observable list.
-     *
-     * @return Unmodified observable list of all the hashmap values.
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<T> asUnmodifiedObservableList() {
-        List<T> temp = internalHashmap.values().stream().collect(toCollection(ArrayList::new));
-        return FXCollections.unmodifiableObservableList(this.asObservableList());
+    public ObservableList<T> asUnmodifiableObservableList() {
+        return internalUnmodifiableList;
     }
 
     @Override
     public Iterator<T> iterator() {
-        return this.asObservableList().iterator();
+        return internalList.iterator();
     }
 
     @Override
